@@ -1,10 +1,12 @@
 package gr.unipi.spatial_join;
 
 import java.io.IOException;
-import org.apache.hadoop.io.*;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class MinMaxCoordsMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
+public class MinMaxCoordsHotelsMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
 	private MinMaxCoordsParser parser = new MinMaxCoordsParser();
 	
 	@Override
