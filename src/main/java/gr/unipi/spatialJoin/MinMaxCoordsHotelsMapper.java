@@ -12,8 +12,8 @@ public class MinMaxCoordsHotelsMapper extends Mapper<LongWritable, Text, Text, D
 	@Override
 	protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException  {
 		parser.parse(value,
-				Integer.parseInt(context.getConfiguration().get("hotelLatitudeIndice")),
-				Integer.parseInt(context.getConfiguration().get("hotelLongitudeIndice")),
+				context.getConfiguration().getInt("hotelLatitudeIndice", -1),
+				context.getConfiguration().getInt("hotelLongitudeIndice", -1),
 				context.getConfiguration().get("hotelSeparator"));
 		context.write(new Text("minLat"), new DoubleWritable(parser.getLatitude()));
 		context.write(new Text("maxLat"), new DoubleWritable(parser.getLatitude()));

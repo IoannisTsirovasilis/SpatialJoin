@@ -1,31 +1,32 @@
 package gr.unipi.spatialJoin;
 
 import java.io.IOException;
-import java.util.Iterator;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class MinMaxCoordsReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
+	
 	@Override
 	protected void reduce(Text key, Iterable<DoubleWritable> values, Context context)
 			throws IOException, InterruptedException {
-		Iterator<DoubleWritable> iter = values.iterator();
-		DoubleWritable coord = iter.next();
+		
+		
+		double outputValue;
 		
 		if (key.toString().contains("min")) {
-			while (iter.hasNext()) {
-				DoubleWritable temp = iter.next();
-				coord.set(Math.min(coord.get(), temp.get()));
+			outputValue = Double.MAX_VALUE;
+			for (DoubleWritable value : values) {
+				outputValue = Math.min(outputValue, value.get());
 			}
 		}
-		else if (key.toString().contains("max")){
-			while (iter.hasNext()) {
-				DoubleWritable temp = iter.next();
-				coord.set(Math.max(coord.get(), temp.get()));
+		else {
+			outputValue = Double.MIN_VALUE;
+			for (DoubleWritable value : values) {
+				outputValue = Math.max(outputValue, value.get());
 			}
 		}
 		
-		context.write(new Text(key.toString()), coord);
+		context.write(new Text(key.toString()), new DoubleWritable(outputValue));
 	}
 }
