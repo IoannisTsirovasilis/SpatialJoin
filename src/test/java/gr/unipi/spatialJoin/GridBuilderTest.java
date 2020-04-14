@@ -47,12 +47,12 @@ public class GridBuilderTest extends TestCase
     	assertEquals(3, gb.getGridCells()[0].length);
     	
     	GridCell[][] actualGridCells = new GridCell[2][3];
-    	actualGridCells[0][0] = new GridCell(point00, point01, point10, point11);
-    	actualGridCells[0][1] = new GridCell(point01, point02, point11, point12);
-    	actualGridCells[0][2] = new GridCell(point02, point03, point12, point13);
-    	actualGridCells[1][0] = new GridCell(point10, point11, point20, point21);
-    	actualGridCells[1][1] = new GridCell(point11, point12, point21, point22);
-    	actualGridCells[1][2] = new GridCell(point12, point13, point22, point23);
+    	actualGridCells[0][0] = new GridCell(point00, point01, point10, point11, "0");
+    	actualGridCells[0][1] = new GridCell(point01, point02, point11, point12, "1");
+    	actualGridCells[0][2] = new GridCell(point02, point03, point12, point13, "2");
+    	actualGridCells[1][0] = new GridCell(point10, point11, point20, point21, "3");
+    	actualGridCells[1][1] = new GridCell(point11, point12, point21, point22, "4");
+    	actualGridCells[1][2] = new GridCell(point12, point13, point22, point23, "5");
     	
     	for (int i = 0; i < gb.getGridCells().length; i++) {
     		for (int j = 0; j < gb.getGridCells()[0].length; j ++) {

@@ -5,8 +5,7 @@ public class GridBuilder {
 	private double minLat;
 	private double maxLat;
 	private double minLon;
-	private double maxLon;
-	private final int R = 6371; // Radius of the earth
+	private double maxLon;	
 	private GridCell[][] gridCells;
 	
 	public GridBuilder(double radius, double minLat, double maxLat, double minLon, double maxLon) {
@@ -18,8 +17,8 @@ public class GridBuilder {
 	}
 	
 	public void buildGrid() {
-		double hDistance = haversineDistance(this.minLat, this.maxLat, this.minLon, this.minLon);
-		double vDistance = haversineDistance(this.minLat, this.minLat, this.minLon, this.maxLon);
+		double hDistance = MathUtil.haversineDistance(this.minLat, this.maxLat, this.minLon, this.minLon);
+		double vDistance = MathUtil.haversineDistance(this.minLat, this.minLat, this.minLon, this.maxLon);
 		
 		//// used for testing
 		// double hDistance = 10;
@@ -37,6 +36,7 @@ public class GridBuilder {
 		Point upperLeft;
 		Point upperRight;
 		gridCells = new GridCell[vSectors][hSectors];
+		short id = 0;
 		for (int i = 0; i < vSectors; i++) {
 			for (int j = 0; j < hSectors; j++) {	
 				// the three following cases ensure that there won't be any
@@ -49,7 +49,7 @@ public class GridBuilder {
 					lowerRight = new Point(this.maxLat, this.minLon + i * vStep);
 					upperLeft = new Point(this.minLat + j * hStep, this.maxLon);
 					upperRight = new Point(this.maxLat, this.maxLon);
-					gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight);
+					gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight, Short.toString(id++));
 					continue;
 				} 
 				
@@ -59,7 +59,7 @@ public class GridBuilder {
 					lowerRight = new Point(this.maxLat, this.minLon + i * vStep);
 					upperLeft = new Point(this.minLat + j * hStep, this.minLon + (i + 1) * vStep);
 					upperRight = new Point(this.maxLat, this.minLon + (i + 1) * vStep);
-					gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight);
+					gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight, Short.toString(id++));
 					continue;
 				}
 				
@@ -70,7 +70,7 @@ public class GridBuilder {
 					lowerRight = new Point(this.minLat + (j + 1) * hStep, this.minLon + i * vStep);
 					upperLeft = new Point(this.minLat + j * hStep, this.maxLon);
 					upperRight = new Point(this.minLat + (j + 1) * hStep, this.maxLon);
-					gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight);
+					gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight, Short.toString(id++));
 					continue;
 				}
 				
@@ -79,29 +79,12 @@ public class GridBuilder {
 				lowerRight = new Point(this.minLat + (j + 1) * hStep, this.minLon + i * vStep);
 				upperLeft = new Point(this.minLat + j * hStep, this.minLon + (i + 1) * vStep);
 				upperRight = new Point(this.minLat + (j + 1) * hStep, this.minLon + (i + 1) * vStep);
-				gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight);
+				gridCells[i][j] = new GridCell(lowerLeft, lowerRight, upperLeft, upperRight, Short.toString(id++));
 			}
 		}
 	}
 	
 	public GridCell[][] getGridCells() {
 		return this.gridCells;
-	}
-	
-	// https://gist.github.com/vananth22/888ed9a22105670e7a4092bdcf0d72e4
-	private double haversineDistance(double lat1, double lat2, double lon1, double lon2) {		 
-		double latDistance = toRad(lat2-lat1);
-		double lonDistance = toRad(lon2-lon1);
-		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + 
-				Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-				Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		double distance = this.R * c;
-		
-		return distance;
-	}
-	
-	private double toRad(double value) {
-		return value * Math.PI / 180;
-	}
+	}	
 }
