@@ -6,7 +6,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class JoinFile1Mapper extends Mapper<LongWritable, Text, TextPair, Text> {
+public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, Text> {
 	private RecordParser parser = new RecordParser();
 	private GridBuilder gridBuilder;
 	private double radius = -1;
@@ -14,10 +14,10 @@ public class JoinFile1Mapper extends Mapper<LongWritable, Text, TextPair, Text> 
 	@Override
 	protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException  {
 		parser.parse(value,
-				context.getConfiguration().getInt("file1NameIndice", -1),
-				context.getConfiguration().getInt("file1LatitudeIndice", -1),
-				context.getConfiguration().getInt("file1LongitudeIndice", -1),
-				context.getConfiguration().get("file1Separator"));
+				context.getConfiguration().getInt("file2NameIndice", -1),
+				context.getConfiguration().getInt("file2LatitudeIndice", -1),
+				context.getConfiguration().getInt("file2LongitudeIndice", -1),
+				context.getConfiguration().get("file2Separator"));
 		if (radius == -1) {
 			radius = context.getConfiguration().getDouble("radius", 0);
 			double minLat = context.getConfiguration().getDouble("minLat", 0);
@@ -30,9 +30,9 @@ public class JoinFile1Mapper extends Mapper<LongWritable, Text, TextPair, Text> 
 		for (GridCell[] row : gridBuilder.getGridCells()) {
 			for (GridCell cell : row) {
 				if (cell.contains(parser.getLatitude(), parser.getLongitude())) {
-					context.write(new TextPair(cell.getId(), "1"), new Text(parser.getName()));
+					context.write(new TextPair(cell.getId(), "2"), new Text(parser.getName()));
 				} else if (cell.isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-					context.write(new TextPair(cell.getId(), "1"), new Text(parser.getName()));
+					context.write(new TextPair(cell.getId(), "2"), new Text(parser.getName()));
 				}
 			}
 		}
