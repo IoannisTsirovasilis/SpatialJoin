@@ -6,7 +6,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, Text> {
+public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, TextPair> {
 	private RecordParser parser = new RecordParser();
 	private GridBuilder gridBuilder;
 	private double radius = -1;
@@ -30,9 +30,9 @@ public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, Text> 
 		for (GridCell[] row : gridBuilder.getGridCells()) {
 			for (GridCell cell : row) {
 				if (cell.contains(parser.getLatitude(), parser.getLongitude())) {
-					context.write(new TextPair(cell.getId(), "2"), new Text(parser.getName()));
+					context.write(new TextPair(cell.getId(), "2"), new TextPair(parser.getName(), "2"));
 				} else if (cell.isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-					context.write(new TextPair(cell.getId(), "2"), new Text(parser.getName()));
+					context.write(new TextPair(cell.getId(), "2"), new TextPair(parser.getName(), "2"));
 				}
 			}
 		}
