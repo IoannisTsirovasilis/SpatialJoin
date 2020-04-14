@@ -6,6 +6,11 @@ public class GridCell {
 	private Point lowerLeft;
 	private Point lowerRight;
 	
+	public GridCell(Point lowerLeft, Point upperRight) {
+		this.upperRight = upperRight;
+		this.lowerLeft = lowerLeft;
+	}
+	
 	public GridCell(Point lowerLeft, Point lowerRight, Point upperLeft, Point upperRight) {
 		this.upperLeft = upperLeft;
 		this.upperRight = upperRight;
@@ -27,6 +32,15 @@ public class GridCell {
 	
 	public Point getLowerRight() {
 		return this.lowerRight;
+	}
+	
+	public boolean contains(double lat, double lon) {
+		if (this.lowerLeft.getX() <= lat && this.lowerLeft.getY() <= lon
+				&& this.upperRight.getX() >= lat && this.upperRight.getY() >= lon) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public boolean areEqual(GridCell gc) {
