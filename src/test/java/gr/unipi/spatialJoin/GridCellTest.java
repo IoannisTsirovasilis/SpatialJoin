@@ -24,6 +24,22 @@ public class GridCellTest extends TestCase
         return new TestSuite( GridCellTest.class );
     }
     
+    public void testIsInDistanceTrue() {
+    	Point lf = new Point(0, 0);
+    	Point ur = new Point(1, 1);
+    	GridCell cell = new GridCell(lf, ur, "0");
+    	Point sample = new Point(1, 1.5);
+    	assertEquals(true, cell.isInDistance(sample.getX(), sample.getY(), 1));
+    }
+    
+    public void testIsInDistanceFalse() {
+    	Point lf = new Point(0, 0);
+    	Point ur = new Point(1, 1);
+    	GridCell cell = new GridCell(lf, ur, "0");
+    	Point sample = new Point(2.1, 1.5);
+    	assertEquals(false, cell.isInDistance(sample.getX(), sample.getY(), 1));
+    }
+    
     public void testContainsPointInRectangle() {
     	Point lf = new Point(0, 0);
     	Point ur = new Point(1, 1);

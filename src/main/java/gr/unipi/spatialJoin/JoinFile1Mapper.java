@@ -34,7 +34,7 @@ public class JoinFile1Mapper extends Mapper<LongWritable, Text, TextPair, Text> 
 				if (cell.contains(parser.getLatitude(), parser.getLongitude())) {
 					context.write(new TextPair(cell.getId(), "1"), new Text(parser.getName()));
 				} else if (cell.isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-					
+					context.write(new TextPair(cell.getId(), "1"), new Text(parser.getName()));
 				}
 			}
 		}
