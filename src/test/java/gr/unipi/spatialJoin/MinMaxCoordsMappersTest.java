@@ -43,7 +43,7 @@ public class MinMaxCoordsMappersTest extends TestCase
 		Configuration conf = new Configuration();		
 		conf.setInt("hotelLatitudeIndice", latitudeIndice);
 		conf.setInt("hotelLongitudeIndice", longitudeIndice);
-		conf.set("hotelSeparator", "|");
+		conf.set("hotelSeparator", separator);
 		new MapDriver<LongWritable, Text, Text, DoubleWritable>()
 			.withMapper(new MinMaxCoordsHotelsMapper())
 			.withInput(new LongWritable(0), record)
@@ -52,7 +52,7 @@ public class MinMaxCoordsMappersTest extends TestCase
 			.withOutput(new Text("minLon"), new DoubleWritable(-121.887367))
 			.withOutput(new Text("maxLon"), new DoubleWritable(-121.887367))
 			.withConfiguration(conf)
-			.runTest();;
+			.runTest();
     }
     
     @SuppressWarnings("deprecation")

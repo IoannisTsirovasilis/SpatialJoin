@@ -8,7 +8,7 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class App {
 	public static void main(String[] args) throws Exception {
-		int exitCode = ToolRunner.run(new JoinRecordWithStationName(), args);
+		int exitCode = ToolRunner.run(new SpatialJoin(), args);
 	    System.exit(exitCode);
 	}
 }

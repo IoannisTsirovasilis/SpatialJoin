@@ -19,7 +19,6 @@ public class GridBuilder {
 	public void buildGrid() {
 		double hDistance = MathUtil.haversineDistance(this.minLat, this.maxLat, this.minLon, this.minLon);
 		double vDistance = MathUtil.haversineDistance(this.minLat, this.minLat, this.minLon, this.maxLon);
-		
 		//// used for testing
 		// double hDistance = 10;
 		// double vDistance = 6;

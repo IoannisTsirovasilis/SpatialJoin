@@ -8,17 +8,20 @@ import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
-
 
 public class SpatialJoin extends Configured implements Tool {
 
-	@Override
+	public static class KeyPartitioner extends Partitioner<TextPair, Text> {
+		@Override
+		public int getPartition(TextPair key, Text value, int numPartitions) {
+			return (key.getFirst().hashCode() & Integer.MAX_VALUE) % numPartitions;
+		}
+	}
 	
 	public int run(String[] args) throws Exception {
-		if (args.length != 5) {
-			printUsage("<input1> <input2> <output> <radius> <coords file>");
+		if (args.length != 4) {
+			JobBuilder.printUsage(this, "<input1> <input2> <output> <radius>");
 			return -1;
 		}
 		Job job = Job.getInstance();
@@ -28,25 +31,46 @@ public class SpatialJoin extends Configured implements Tool {
 		Path file1InputPath = new Path(args[0]);
 		Path file2InputPath = new Path(args[1]);
 		Path outputPath = new Path(args[2]);
-		double radius = Double.parseDouble(args[3]);
-		Path coordsPath = new Path(args[4]);
+		
+		job.getConfiguration().setDouble("radius", Double.parseDouble(args[3]));
+		
+		// data set spatial borders
+		job.getConfiguration().setDouble("minLat", -42.118331);
+		job.getConfiguration().setDouble("maxLat", 49.00106);
+		job.getConfiguration().setDouble("minLon", -124.586307);
+		job.getConfiguration().setDouble("maxLon", 47.669728);
+		
+		// file 1 column indices of interest
+		job.getConfiguration().setInt("file1NameIndice", 1);
+		job.getConfiguration().setInt("file1LatitudeIndice", 4);
+		job.getConfiguration().setInt("file1LongitudeIndice", 5);
+		job.getConfiguration().set("file1Separator", "|");
+		
+		// file 2 column indices of interest
+		job.getConfiguration().setInt("file2NameIndice", 1);
+		job.getConfiguration().setInt("file2LatitudeIndice", 3);
+		job.getConfiguration().setInt("file2LongitudeIndice", 4);
+		job.getConfiguration().set("file2Separator", "|");
 		
 		MultipleInputs.addInputPath(job, file1InputPath, TextInputFormat.class, JoinFile1Mapper.class);
 		MultipleInputs.addInputPath(job, file2InputPath, TextInputFormat.class, JoinFile2Mapper.class);
 		FileOutputFormat.setOutputPath(job, outputPath);
 		
+		// Partitioner
+		job.setPartitionerClass(KeyPartitioner.class);
+		
+		// Comparator
+		job.setGroupingComparatorClass(TextPair.FirstComparator.class);
 
+		// Map conf
 		job.setMapOutputKeyClass(TextPair.class);
-
-		job.setReducerClass(JoinReducer.class);
-
+		job.setMapOutputValueClass(TextPair.class);
+		
+		// Reducer conf
+		job.setReducerClass(JoinFilesReducer.class);
 		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(Text.class);
 
 		return job.waitForCompletion(true) ? 0 : 1;
-	}
-	
-	public void printUsage(String extraArgsUsage) {
-		System.err.printf("Usage: %s [genericOptions] %s\n\n", getClass().getSimpleName(), extraArgsUsage);
-		GenericOptionsParser.printGenericCommandUsage(System.err);
 	}
 }
