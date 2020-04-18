@@ -25,10 +25,7 @@ public class GridCell {
 	
 	// https://stackoverflow.com/questions/5254838/calculating-distance-between-a-point-and-a-rectangular-box-nearest-point
 	public boolean isInDistance(double lat, double lon, double radius) {
-		double dx = Math.max(Math.max(this.lowerLeft.getX() - lat, 0), lat - this.upperRight.getX());
-		double dy = Math.max(Math.max(this.lowerLeft.getY() - lon, 0), lon- this.upperRight.getY());
-		
-		return Math.sqrt(dx * dx + dy * dy) <= radius;
+		return MathUtil.pointToRectangleDistance(new Point(lon, lat), this.lowerLeft, this.upperRight) <= radius;
 	}
 	
 	public boolean contains(double lat, double lon) {

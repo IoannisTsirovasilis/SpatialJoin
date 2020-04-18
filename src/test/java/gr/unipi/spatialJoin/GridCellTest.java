@@ -29,7 +29,7 @@ public class GridCellTest extends TestCase
     	Point ur = new Point(1, 1);
     	GridCell cell = new GridCell(lf, ur, "0");
     	Point sample = new Point(1, 1.5);
-    	assertEquals(true, cell.isInDistance(sample.getX(), sample.getY(), 1));
+    	assertEquals(true, cell.isInDistance(sample.getX(), sample.getY(), 55.6));
     }
     
     public void testIsInDistanceFalse() {

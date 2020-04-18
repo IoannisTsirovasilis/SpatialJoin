@@ -75,14 +75,12 @@ public class TextPair implements WritableComparable<TextPair> {
 		return second.compareTo(tp.second);
 	}
 	
-	public static class FirstComparator extends WritableComparator {
-
+	public static class KeyComparator extends WritableComparator {
 		private static final Text.Comparator TEXT_COMPARATOR = new Text.Comparator();
-
-		public FirstComparator() {
-			super(TextPair.class);
-		}
 		
+		public KeyComparator() {
+			super(TextPair.class);
+		}		
 		
 		@Override
 		public int compare(byte[] b1, int s1, int l1, byte[] b2, int s2, int l2) {
@@ -95,14 +93,34 @@ public class TextPair implements WritableComparable<TextPair> {
 				throw new IllegalArgumentException(e);
 			}
 		}
-		
 
 		@Override
 		public int compare(WritableComparable a, WritableComparable b) {
-			if (a instanceof TextPair && b instanceof TextPair) {
-				return ((TextPair) a).first.compareTo(((TextPair) b).first);
+			TextPair tp1 = (TextPair) a;
+			TextPair tp2 = (TextPair) b;
+			
+			int cmp = tp1.first.compareTo(tp2.first);
+			
+			if (cmp != 0) {
+				return cmp;
 			}
-			return super.compare(a, b);
+			
+			return  tp1.second.compareTo(tp2.second);
 		}
 	}
+	
+	public static class GroupComparator extends WritableComparator {
+		protected GroupComparator() {
+			super(TextPair.class, true);
+		}
+		
+		
+		@Override
+		public int compare(WritableComparable a, WritableComparable b) {
+			TextPair tp1 = (TextPair) a;
+			TextPair tp2 = (TextPair) b;
+			return tp1.first.compareTo(tp2.first);
+		}
+	}
+	
 }

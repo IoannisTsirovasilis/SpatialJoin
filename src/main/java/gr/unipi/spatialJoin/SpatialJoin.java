@@ -21,7 +21,7 @@ public class SpatialJoin extends Configured implements Tool {
 	
 	public int run(String[] args) throws Exception {
 		if (args.length != 4) {
-			JobBuilder.printUsage(this, "<input1> <input2> <output> <radius>");
+			JobBuilder.printUsage(this, "<input1> <input2> <radius> <output>");
 			return -1;
 		}
 		Job job = Job.getInstance();
@@ -30,9 +30,9 @@ public class SpatialJoin extends Configured implements Tool {
 
 		Path file1InputPath = new Path(args[0]);
 		Path file2InputPath = new Path(args[1]);
-		Path outputPath = new Path(args[2]);
+		Path outputPath = new Path(args[3]);
 		
-		job.getConfiguration().setDouble("radius", Double.parseDouble(args[3]));
+		job.getConfiguration().setDouble("radius", Double.parseDouble(args[2]));
 		
 		// data set spatial borders
 		job.getConfiguration().setDouble("minLat", -42.118331);
@@ -59,8 +59,11 @@ public class SpatialJoin extends Configured implements Tool {
 		// Partitioner
 		job.setPartitionerClass(KeyPartitioner.class);
 		
-		// Comparator
-		job.setGroupingComparatorClass(TextPair.FirstComparator.class);
+		// Key Comparator
+		job.setSortComparatorClass(TextPair.KeyComparator.class);
+		
+		// Group Comparator
+		job.setGroupingComparatorClass(TextPair.GroupComparator.class);
 
 		// Map conf
 		job.setMapOutputKeyClass(TextPair.class);

@@ -26,7 +26,6 @@ public class JoinFile1Mapper extends Mapper<LongWritable, Text, TextPair, TextPa
 			double maxLon = context.getConfiguration().getDouble("maxLon", 0);
 			gridBuilder = new GridBuilder(radius, minLat, maxLat, minLon, maxLon);
 			gridBuilder.buildGrid();
-			System.out.println(gridBuilder.getGridCells()[0][0].getId());
 		}
 		
 		for (GridCell[] row : gridBuilder.getGridCells()) {
