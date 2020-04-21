@@ -4,6 +4,7 @@ public class GridCell {
 	private Point upperRight;
 	private Point lowerLeft;
 	private String id;
+	private GridCell[] adjacentCells; 
 	
 	public GridCell(Point lowerLeft, Point upperRight, String id) {
 		this.upperRight = upperRight;
@@ -29,8 +30,8 @@ public class GridCell {
 	}
 	
 	public boolean contains(double lat, double lon) {
-		if (this.lowerLeft.getX() <= lat && this.lowerLeft.getY() <= lon
-				&& this.upperRight.getX() >= lat && this.upperRight.getY() >= lon) {
+		if (this.lowerLeft.getY() <= lat && this.lowerLeft.getX() <= lon
+				&& this.upperRight.getY() >= lat && this.upperRight.getX() >= lon) {
 			return true;
 		}
 		

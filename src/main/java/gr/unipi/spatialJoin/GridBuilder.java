@@ -19,9 +19,6 @@ public class GridBuilder {
 	public void buildGrid() {
 		double vDistance = MathUtil.haversineDistance(this.minLat, this.maxLat, this.minLon, this.minLon);
 		double hDistance = MathUtil.haversineDistance(this.minLat, this.minLat, this.minLon, this.maxLon);
-		//// used for testing
-		//hDistance = 10;
-		//vDistance = 6;
 		
 		// The data won't always reside in a square area. So we may have to 
 		// draw different number of sectors at each dimension

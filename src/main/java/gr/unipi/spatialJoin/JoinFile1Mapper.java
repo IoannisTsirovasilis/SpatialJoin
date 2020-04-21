@@ -28,12 +28,201 @@ public class JoinFile1Mapper extends Mapper<LongWritable, Text, TextPair, TextPa
 			gridBuilder.buildGrid();
 		}
 		
-		for (GridCell[] row : gridBuilder.getGridCells()) {
-			for (GridCell cell : row) {
-				if (cell.contains(parser.getLatitude(), parser.getLongitude())) {
-					context.write(new TextPair(cell.getId(), "1"), new TextPair(parser.getName(), "1"));
-				} else if (cell.isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-					context.write(new TextPair(cell.getId(), "1"), new TextPair(parser.getName(), "1"));
+		GridCell[][] cells = gridBuilder.getGridCells();
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[0].length; j++) {
+				if (cells[i][j].contains(parser.getLatitude(), parser.getLongitude())) {
+					context.write(new TextPair(cells[i][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+					
+					if (i == 0 && j == 0) {
+						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						break;
+					}
+					
+					if (i == 0 && j == cells[0].length - 1) {
+						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						break;
+					}
+					
+					if (i == 0) {
+						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						break;
+					}
+					
+					// ------------------------------------------
+					
+					if (i == cells.length - 1 && j == 0) {
+						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						break;
+					}
+					
+					if (i == cells.length - 1 && j == cells[0].length - 1) {
+						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						break;
+					}
+					
+					if (i == cells.length - 1) {
+						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						break;
+					}
+					
+					if (j == 0) {
+						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						break;
+					}
+					
+					if (j == cells[0].length - 1) {
+						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i - 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i + 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+							context.write(new TextPair(cells[i][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+						}
+						
+						break;
+					}
+					
+					if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i + 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i - 1][j].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i - 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i + 1][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i][j - 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i - 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
+						context.write(new TextPair(cells[i + 1][j + 1].getId(), "1"), new TextPair(parser.getName(), "1"));
+					}
+					
+					break;
 				}
 			}
 		}
