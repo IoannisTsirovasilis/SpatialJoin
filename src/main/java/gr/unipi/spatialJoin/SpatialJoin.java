@@ -20,12 +20,12 @@ public class SpatialJoin extends Configured implements Tool {
 	}
 	
 	public int run(String[] args) throws Exception {
-		if (args.length != 4) {
-			JobBuilder.printUsage(this, "<input1> <input2> <radius> <output>");
+		if (args.length != 5) {
+			JobBuilder.printUsage(this, "<input1> <input2> <radius> <output> <job name>");
 			return -1;
 		}
 		Job job = Job.getInstance();
-		job.setJobName("Join hotels with restaurants");
+		job.setJobName(args[4]);
 		job.setJarByClass(getClass());
 
 		Path file1InputPath = new Path(args[0]);
