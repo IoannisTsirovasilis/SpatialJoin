@@ -1,4 +1,4 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.minMaxCoords;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.io.Text;

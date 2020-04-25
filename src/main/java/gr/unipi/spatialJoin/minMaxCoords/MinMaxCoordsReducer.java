@@ -1,4 +1,4 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.minMaxCoords;
 
 import java.io.IOException;
 import org.apache.hadoop.io.Text;

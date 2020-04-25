@@ -1,4 +1,4 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.minMaxCoords;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -9,8 +9,8 @@ import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import gr.unipi.spatialJoin.MinMaxCoordsHotelsMapper;
-import gr.unipi.spatialJoin.MinMaxCoordsReducer;
+import gr.unipi.spatialJoin.minMaxCoords.MinMaxCoordsHotelsMapper;
+import gr.unipi.spatialJoin.minMaxCoords.MinMaxCoordsReducer;
 
 public class AppMinMaxCoords {
 	public static void main(String[] args) throws Exception {

@@ -25,9 +25,11 @@ public class GridBuilderTest extends TestCase
     }
     
     public void testBuildGridCreatesProperGrid() {
-    	GridBuilder gb = new GridBuilder(1.4, 0, 6, 0, 10);
-    	double hStep = 10.0 / 3;
-    	double vStep = 6.0 / 2;
+    	int hSectors = 3;
+    	int vSectors = 2;
+    	GridBuilder gb = new GridBuilder(1.4, 0, 6, 0, 10, hSectors, vSectors);
+    	double hStep = 10.0 / hSectors;
+    	double vStep = 6.0 / vSectors;
     	Point point00 = new Point(0, 0);
     	Point point01 = new Point(0 + hStep, 0);
     	Point point02 = new Point(0 + 2 * hStep, 0);

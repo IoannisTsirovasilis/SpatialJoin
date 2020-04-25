@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+
 import java.util.ArrayList;
 
 public class JoinFilesReducer extends Reducer<TextPair, TextPair, Text, Text> {

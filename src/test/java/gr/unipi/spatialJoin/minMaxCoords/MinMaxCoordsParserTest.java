@@ -1,7 +1,8 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.minMaxCoords;
 
 import org.apache.hadoop.io.Text;
 
+import gr.unipi.spatialJoin.minMaxCoords.MinMaxCoordsParser;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

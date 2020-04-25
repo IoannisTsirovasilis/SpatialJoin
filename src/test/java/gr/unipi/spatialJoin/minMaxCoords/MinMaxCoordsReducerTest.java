@@ -1,4 +1,4 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.minMaxCoords;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -9,6 +9,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 
+import gr.unipi.spatialJoin.minMaxCoords.MinMaxCoordsReducer;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

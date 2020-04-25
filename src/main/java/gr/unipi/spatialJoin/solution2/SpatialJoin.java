@@ -1,4 +1,4 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.solution2;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -9,6 +9,12 @@ import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
+
+import gr.unipi.spatialJoin.JobBuilder;
+import gr.unipi.spatialJoin.JoinFilesReducer;
+import gr.unipi.spatialJoin.TextPair;
+import gr.unipi.spatialJoin.solution2.JoinFile1Mapper;
+import gr.unipi.spatialJoin.solution2.JoinFile2Mapper;
 
 public class SpatialJoin extends Configured implements Tool {
 
@@ -39,6 +45,8 @@ public class SpatialJoin extends Configured implements Tool {
 		job.getConfiguration().setDouble("maxLat", 49.00106);
 		job.getConfiguration().setDouble("minLon", -124.586307);
 		job.getConfiguration().setDouble("maxLon", 47.669728);
+		job.getConfiguration().setInt("hSectors", 100);
+		job.getConfiguration().setInt("vSectors", 100);
 		
 		// file 1 column indices of interest
 		job.getConfiguration().setInt("file1NameIndice", 1);

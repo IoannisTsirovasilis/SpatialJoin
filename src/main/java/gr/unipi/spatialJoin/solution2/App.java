@@ -1,4 +1,4 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.solution2;
 
 import org.apache.hadoop.util.ToolRunner;
 

@@ -7,26 +7,23 @@ public class GridBuilder {
 	private double minLon;
 	private double maxLon;	
 	private GridCell[][] gridCells;
+	private int hSectors;
+	private int vSectors;
 	
-	public GridBuilder(double radius, double minLat, double maxLat, double minLon, double maxLon) {
+	public GridBuilder(double radius, double minLat, double maxLat, double minLon, double maxLon, int hSectors, int vSectors) {
 		this.radius = radius;
 		this.minLat = minLat;
 		this.maxLat = maxLat;
 		this.minLon = minLon;
 		this.maxLon = maxLon;
+		this.hSectors = hSectors;
+		this.vSectors = vSectors;
 	}
 	
-	public void buildGrid() {
-		double vDistance = MathUtil.haversineDistance(this.minLat, this.maxLat, this.minLon, this.minLon);
-		double hDistance = MathUtil.haversineDistance(this.minLat, this.minLat, this.minLon, this.maxLon);
+	public void buildGrid() {		
 		
-		// The data won't always reside in a square area. So we may have to 
-		// draw different number of sectors at each dimension
-		int hSectors = (int)(Math.floor(hDistance / (2 * this.radius))); 
-		int vSectors = (int)(Math.floor(vDistance / (2 * this.radius)));
-		
-		double vStep = (this.maxLat - this.minLat) / vSectors;
-		double hStep = (this.maxLon - this.minLon) / hSectors;
+		double vStep = (this.maxLat - this.minLat) / this.vSectors;
+		double hStep = (this.maxLon - this.minLon) / this.hSectors;
 		
 		Point lowerLeft;
 		Point upperRight;
@@ -70,6 +67,14 @@ public class GridBuilder {
 				gridCells[i][j] = new GridCell(lowerLeft, upperRight, Short.toString(id++));
 			}
 		}
+	}
+	
+	public int getVSectors() {
+		return this.vSectors;
+	}
+	
+	public int getHSectors() {
+		return this.hSectors;
 	}
 	
 	public GridCell[][] getGridCells() {

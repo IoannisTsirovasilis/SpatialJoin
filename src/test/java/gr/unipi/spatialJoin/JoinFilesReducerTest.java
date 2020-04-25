@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 
+import gr.unipi.spatialJoin.JoinFilesReducer;
+import gr.unipi.spatialJoin.TextPair;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

@@ -1,4 +1,4 @@
-package gr.unipi.spatialJoin;
+package gr.unipi.spatialJoin.minMaxCoords;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -10,6 +10,9 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
+
+import gr.unipi.spatialJoin.minMaxCoords.MinMaxCoordsHotelsMapper;
+import gr.unipi.spatialJoin.minMaxCoords.MinMaxCoordsRestaurantsMapper;
 
 
 
