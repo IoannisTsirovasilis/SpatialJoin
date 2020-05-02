@@ -10,8 +10,9 @@ import gr.unipi.spatialJoin.GridBuilder;
 import gr.unipi.spatialJoin.GridCell;
 import gr.unipi.spatialJoin.RecordParser;
 import gr.unipi.spatialJoin.TextPair;
+import gr.unipi.spatialJoin.Tuple4;
 
-public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, TextPair> {
+public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, Tuple4> {
 	private RecordParser parser = new RecordParser();
 	private GridBuilder gridBuilder;
 	private double radius = -1;
@@ -45,57 +46,57 @@ public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, TextPa
 			for (int j = 0; j < cells[0].length; j++) {
 				
 				if (cells[i][j].contains(parser.getLatitude(), parser.getLongitude())) {
-					context.write(new TextPair(cells[i][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+					context.write(new TextPair(cells[i][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					
 					if (i == 0 && j == 0) {
 						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						break;
 					}
 					
 					if (i == 0 && j == cells[0].length - 1) {
 						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						break;
 					}
 					
 					if (i == 0) {
 						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						break;
 					}
@@ -104,76 +105,76 @@ public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, TextPa
 					
 					if (i == cells.length - 1 && j == 0) {
 						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						break;
 					}
 					
 					if (i == cells.length - 1 && j == cells[0].length - 1) {
 						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						break;
 					}
 					
 					if (i == cells.length - 1) {
 						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						break;
 					}
 					
 					if (j == 0) {
 						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						break;
@@ -181,58 +182,58 @@ public class JoinFile2Mapper extends Mapper<LongWritable, Text, TextPair, TextPa
 					
 					if (j == cells[0].length - 1) {
 						if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+							context.write(new TextPair(cells[i][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 						}
 						
 						break;
 					}
 					
 					if (cells[i + 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i + 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i + 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					if (cells[i - 1][j].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i - 1][j].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i - 1][j].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					if (cells[i - 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i - 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					if (cells[i + 1][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i + 1][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					if (cells[i][j - 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i][j - 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i][j - 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					if (cells[i][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					if (cells[i - 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i - 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					if (cells[i + 1][j + 1].isInDistance(parser.getLatitude(), parser.getLongitude(), radius)) {
-						context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new TextPair(parser.getName(), "2"));
+						context.write(new TextPair(cells[i + 1][j + 1].getId(), "2"), new Tuple4(parser.getName(), "2", parser.getLongitude(), parser.getLatitude()));
 					}
 					
 					break;

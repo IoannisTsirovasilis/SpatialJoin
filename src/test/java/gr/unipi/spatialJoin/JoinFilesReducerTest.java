@@ -3,7 +3,9 @@ package gr.unipi.spatialJoin;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import gr.unipi.spatialJoin.Tuple4;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 
@@ -36,28 +38,26 @@ public class JoinFilesReducerTest extends TestCase
     public void testReducerOutputsCorrectKeyValue() throws IOException, InterruptedException {
     	TextPair key = new TextPair("1", "1");
     	
-    	TextPair[] samples = {
-    			new TextPair("Name11", "1"),
-    			new TextPair("Name12", "1"),
-    			new TextPair("Name13", "1"),
-    			new TextPair("Name21", "2"),
-    			new TextPair("Name22", "2"),
-    			new TextPair("Name23", "2"),
+    	Tuple4[] samples = {
+    			new Tuple4("Name11", "1", 0.05, 0.1),
+    			new Tuple4("Name12", "1", 10, 10),
+    			new Tuple4("Name13", "1", 5, 5),
+    			new Tuple4("Name21", "2", 0, 0),
+    			new Tuple4("Name22", "2", 0, 0.1),
+    			new Tuple4("Name23", "2", 5.05, 5.05),
     	};
-    	List<TextPair> iter = Arrays.asList(samples);
+    	List<Tuple4> iter = Arrays.asList(samples);
     	
-		new ReduceDriver<TextPair, TextPair, Text, Text>()
+    	Configuration conf = new Configuration();	
+		conf.setDouble("radius", 15.72);
+    	
+		new ReduceDriver<TextPair, Tuple4, Text, Text>()
 			.withReducer(new JoinFilesReducer())
 			.withInput(key, iter)
 			.withOutput(new Text("Name11"), new Text("Name21"))
-			.withOutput(new Text("Name12"), new Text("Name21"))
-			.withOutput(new Text("Name13"), new Text("Name21"))
 			.withOutput(new Text("Name11"), new Text("Name22"))
-			.withOutput(new Text("Name12"), new Text("Name22"))
-			.withOutput(new Text("Name13"), new Text("Name22"))
-			.withOutput(new Text("Name11"), new Text("Name23"))
-			.withOutput(new Text("Name12"), new Text("Name23"))
 			.withOutput(new Text("Name13"), new Text("Name23"))
+			.withConfiguration(conf)
 			.runTest();
     }
 }

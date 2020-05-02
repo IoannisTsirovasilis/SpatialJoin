@@ -13,6 +13,7 @@ import org.apache.hadoop.util.Tool;
 import gr.unipi.spatialJoin.JobBuilder;
 import gr.unipi.spatialJoin.JoinFilesReducer;
 import gr.unipi.spatialJoin.TextPair;
+import gr.unipi.spatialJoin.Tuple4;
 import gr.unipi.spatialJoin.solution2.JoinFile1Mapper;
 import gr.unipi.spatialJoin.solution2.JoinFile2Mapper;
 
@@ -45,17 +46,17 @@ public class SpatialJoin extends Configured implements Tool {
 		job.getConfiguration().setDouble("maxLat", 49.00106);
 		job.getConfiguration().setDouble("minLon", -124.586307);
 		job.getConfiguration().setDouble("maxLon", 47.669728);
-		job.getConfiguration().setInt("hSectors", 100);
-		job.getConfiguration().setInt("vSectors", 100);
+		job.getConfiguration().setInt("hSectors", 150);
+		job.getConfiguration().setInt("vSectors", 150);
 		
 		// file 1 column indices of interest
-		job.getConfiguration().setInt("file1NameIndice", 1);
+		job.getConfiguration().setInt("file1NameIndice", 0);
 		job.getConfiguration().setInt("file1LatitudeIndice", 4);
 		job.getConfiguration().setInt("file1LongitudeIndice", 5);
 		job.getConfiguration().set("file1Separator", "|");
 		
 		// file 2 column indices of interest
-		job.getConfiguration().setInt("file2NameIndice", 1);
+		job.getConfiguration().setInt("file2NameIndice", 0);
 		job.getConfiguration().setInt("file2LatitudeIndice", 3);
 		job.getConfiguration().setInt("file2LongitudeIndice", 4);
 		job.getConfiguration().set("file2Separator", "|");
@@ -75,7 +76,7 @@ public class SpatialJoin extends Configured implements Tool {
 
 		// Map conf
 		job.setMapOutputKeyClass(TextPair.class);
-		job.setMapOutputValueClass(TextPair.class);
+		job.setMapOutputValueClass(Tuple4.class);
 		
 		// Reducer conf
 		job.setReducerClass(JoinFilesReducer.class);

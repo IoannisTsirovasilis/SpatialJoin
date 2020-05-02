@@ -1,6 +1,7 @@
 package gr.unipi.spatialJoin.solution1;
 
 import java.io.IOException;
+import gr.unipi.spatialJoin.Tuple4;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
@@ -8,7 +9,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 
 import gr.unipi.spatialJoin.TextPair;
-import gr.unipi.spatialJoin.solution1.JoinFile1Mapper;
+import gr.unipi.spatialJoin.solution1.JoinFile2Mapper;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -36,10 +37,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 500);
 		conf.setDouble("minLat", -42.118331);
 		conf.setDouble("maxLat", 49.00106);
@@ -48,10 +49,10 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 10);
 		conf.setInt("vSectors", 10);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("0", "1"), new TextPair("Alameda County Fairgrounds", "1"))
+			.withOutput(new TextPair("0", "2"), new Tuple4("Alameda County Fairgrounds", "2", -123.0, -40.0))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -67,10 +68,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -79,10 +80,10 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("2", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("2", "2"), new Tuple4("Test", "2", 1, 0.15))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -96,10 +97,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -108,13 +109,13 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("0", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("3", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("1", "1"), new TextPair("Test", "1"))			
-			.withOutput(new TextPair("4", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("0", "2"), new Tuple4("Test", "2", 0.31, 0.31))
+			.withOutput(new TextPair("3", "2"), new Tuple4("Test", "2", 0.31, 0.31))
+			.withOutput(new TextPair("1", "2"), new Tuple4("Test", "2", 0.31, 0.31))			
+			.withOutput(new TextPair("4", "2"), new Tuple4("Test", "2", 0.31, 0.31))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -130,10 +131,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -142,11 +143,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("0", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("3", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("0", "2"), new Tuple4("Test", "2", 0.15, 0.31))
+			.withOutput(new TextPair("3", "2"), new Tuple4("Test", "2", 0.15, 0.31))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -160,10 +161,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -172,11 +173,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("0", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("1", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("0", "2"), new Tuple4("Test", "2", 0.31, 0.15))
+			.withOutput(new TextPair("1", "2"), new Tuple4("Test", "2", 0.31, 0.15))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -190,10 +191,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -202,13 +203,13 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("2", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("5", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("1", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("4", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("2", "2"), new Tuple4("Test", "2", 0.68, 0.31))
+			.withOutput(new TextPair("5", "2"), new Tuple4("Test", "2", 0.68, 0.31))
+			.withOutput(new TextPair("1", "2"), new Tuple4("Test", "2", 0.68, 0.31))
+			.withOutput(new TextPair("4", "2"), new Tuple4("Test", "2", 0.68, 0.31))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -222,10 +223,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -234,11 +235,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("2", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("5", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("2", "2"), new Tuple4("Test", "2", 0.90, 0.31))
+			.withOutput(new TextPair("5", "2"), new Tuple4("Test", "2", 0.90, 0.31))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -252,10 +253,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -264,11 +265,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("2", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("1", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("2", "2"), new Tuple4("Test", "2", 0.7, 0.15))
+			.withOutput(new TextPair("1", "2"), new Tuple4("Test", "2", 0.7, 0.15))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -282,10 +283,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -294,11 +295,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("6", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("7", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("6", "2"), new Tuple4("Test", "2", 0.31, 0.9))
+			.withOutput(new TextPair("7", "2"), new Tuple4("Test", "2", 0.31, 0.9))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -312,10 +313,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -324,11 +325,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("6", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("3", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("6", "2"), new Tuple4("Test", "2", 0.15, 0.68))
+			.withOutput(new TextPair("3", "2"), new Tuple4("Test", "2", 0.15, 0.68))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -342,10 +343,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -354,13 +355,13 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("6", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("3", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("7", "1"), new TextPair("Test", "1"))			
-			.withOutput(new TextPair("4", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("6", "2"), new Tuple4("Test", "2", 0.31, 0.68))
+			.withOutput(new TextPair("3", "2"), new Tuple4("Test", "2", 0.31, 0.68))
+			.withOutput(new TextPair("7", "2"), new Tuple4("Test", "2", 0.31, 0.68))			
+			.withOutput(new TextPair("4", "2"), new Tuple4("Test", "2", 0.31, 0.68))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -374,10 +375,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -386,11 +387,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("8", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("5", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("8", "2"), new Tuple4("Test", "2", 0.9, 0.68))
+			.withOutput(new TextPair("5", "2"), new Tuple4("Test", "2", 0.9, 0.68))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -404,10 +405,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -416,11 +417,11 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("8", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("7", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("8", "2"), new Tuple4("Test", "2", 0.68, 0.9))
+			.withOutput(new TextPair("7", "2"), new Tuple4("Test", "2", 0.68, 0.9))
 			.withConfiguration(conf)
 			.runTest();
     }
@@ -434,10 +435,10 @@ public class JoinFileMapperTest extends TestCase {
 		String separator = "|";
 		
 		Configuration conf = new Configuration();	
-		conf.setInt("file1NameIndice", nameIndice);
-		conf.setInt("file1LatitudeIndice", latitudeIndice);
-		conf.setInt("file1LongitudeIndice", longitudeIndice);
-		conf.set("file1Separator", separator);
+		conf.setInt("file2NameIndice", nameIndice);
+		conf.setInt("file2LatitudeIndice", latitudeIndice);
+		conf.setInt("file2LongitudeIndice", longitudeIndice);
+		conf.set("file2Separator", separator);
 		conf.setDouble("radius", 15.72);
 		conf.setDouble("minLat", 0);
 		conf.setDouble("maxLat", 1);
@@ -446,13 +447,13 @@ public class JoinFileMapperTest extends TestCase {
 		conf.setInt("hSectors", 3);
 		conf.setInt("vSectors", 3);
 		
-		new MapDriver<LongWritable, Text, TextPair, TextPair>()
-			.withMapper(new JoinFile1Mapper())
+		new MapDriver<LongWritable, Text, TextPair, Tuple4>()
+			.withMapper(new JoinFile2Mapper())
 			.withInput(new LongWritable(0), record)
-			.withOutput(new TextPair("8", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("5", "1"), new TextPair("Test", "1"))
-			.withOutput(new TextPair("7", "1"), new TextPair("Test", "1"))			
-			.withOutput(new TextPair("4", "1"), new TextPair("Test", "1"))
+			.withOutput(new TextPair("8", "2"), new Tuple4("Test", "2", 0.68, 0.68))
+			.withOutput(new TextPair("5", "2"), new Tuple4("Test", "2", 0.68, 0.68))
+			.withOutput(new TextPair("7", "2"), new Tuple4("Test", "2", 0.68, 0.68))			
+			.withOutput(new TextPair("4", "2"), new Tuple4("Test", "2", 0.68, 0.68))
 			.withConfiguration(conf)
 			.runTest();
     }
